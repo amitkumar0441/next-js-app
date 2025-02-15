@@ -1,0 +1,29 @@
+name: first_work_flow # Workflow name
+
+on:   # Trigger events
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:  # Workflow jobs
+  build:  # First job
+
+    runs-on: ubuntu-latest
+
+    strategy: # Matrix Strategy
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v4 # Clone the code 
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - run: npm ci  # Install dependencies
+    - run: npm run build --if-present  # Prevent errors if build script is missing
+    - run: npm test  # Run tests
