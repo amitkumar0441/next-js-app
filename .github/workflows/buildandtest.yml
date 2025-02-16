@@ -3,8 +3,6 @@ name: first_work_flow # Workflow name
 on:   # Trigger events
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:  # Workflow jobs
   build:  # First job
